@@ -1,5 +1,6 @@
 package backend.proyect_doctic_is1.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,11 +17,18 @@ public interface IPublicationsService {
     // Encontrar publicaciones por autor
     List<PublicationsModel> getPublicationsByAuthor(String id);
 
-    // Encontrar una publicación por su ID
+    // Encontrar una publicación por su Id
     Optional<PublicationsModel> findPublicationsByid(String id);
 
-    // Encontrar metadatos de la publicación por ID
+    // Encontrar metadatos de la publicación por Id
     Optional<PublicationsModel> findByIdMetadatos(String id);
+
+    // Método para filtrar publicaciones
+    List<PublicationsModel> filterPublications(LocalDate startDate, String categoryId, String keyword, String description);
+
+    // Método para registrar la descarga de una publicación
+    void registerDownload(PublicationsModel publication, String username);
+
 }
 
 //:)
