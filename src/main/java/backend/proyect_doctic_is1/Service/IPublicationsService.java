@@ -22,3 +22,5 @@ public interface IPublicationsService {
     // Encontrar metadatos de la publicación por ID
     Optional<PublicationsModel> findByIdMetadatos(String id);
 }
+
+//:)

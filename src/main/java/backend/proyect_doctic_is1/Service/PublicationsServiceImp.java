@@ -40,3 +40,5 @@ public class PublicationsServiceImp implements IPublicationsService {
         return publicationsRepository.findByIdMetadatos(idDocument);
     }
 }
+
+//:)
