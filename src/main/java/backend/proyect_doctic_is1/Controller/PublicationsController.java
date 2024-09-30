@@ -1,7 +1,7 @@
 package backend.proyect_doctic_is1.Controller;
 
-
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,25 +14,53 @@ import org.springframework.web.bind.annotation.RestController;
 import backend.proyect_doctic_is1.Model.PublicationsModel;
 import backend.proyect_doctic_is1.Service.IPublicationsService;
 
-
 @RequestMapping("/api/publications")
 @RestController
 public class PublicationsController {
+    
     @Autowired
-    IPublicationsService publicationsService;
+    private IPublicationsService publicationsService;
 
+    // Buscar publicación por título
     @GetMapping("/SearchByTitle/{title}")
-    public ResponseEntity<List<PublicationsModel>> getPubBytitle(@PathVariable String title){
-        List<PublicationsModel> publication = publicationsService.findAllbyTitle(title);
-        if(publication.isEmpty()){
+    public ResponseEntity<List<PublicationsModel>> getPubBytitle(@PathVariable String title) {
+        List<PublicationsModel> publications = publicationsService.findAllbyTitle(title);
+        if (publications.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-
-        return ResponseEntity.ok(publication);
+        return ResponseEntity.ok(publications);
     }
 
-    public ResponseEntity<List<PublicationsModel>> listAll(){
-        
-        return new ResponseEntity<List<PublicationsModel>>(publicationsService.listAll(), HttpStatus.OK);
+    // Listar todas las publicaciones
+    @GetMapping("/listAll")
+    public ResponseEntity<List<PublicationsModel>> listAll() {
+        List<PublicationsModel> publications = publicationsService.listAll();
+        return new ResponseEntity<>(publications, HttpStatus.OK);
+    }
+
+    // Buscar publicaciones por autor
+    @GetMapping("/author/{id}")
+    public ResponseEntity<List<PublicationsModel>> getPublicationsByAuthor(@PathVariable String id) {
+        List<PublicationsModel> publications = publicationsService.getPublicationsByAuthor(id);
+        if (publications.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(publications);
+    }
+
+    // Buscar publicación por ID
+    @GetMapping("/{id}")
+    public ResponseEntity<PublicationsModel> findById(@PathVariable String id) {
+        Optional<PublicationsModel> publication = publicationsService.findPublicationsByid(id);
+        return publication.map(ResponseEntity::ok)
+                          .orElseGet(() -> ResponseEntity.status(HttpStatus.NO_CONTENT).build());
+    }
+
+    // Buscar metadatos de la publicación por ID
+    @GetMapping("/metadatos/{id}")
+    public ResponseEntity<PublicationsModel> findByIdMetadatos(@PathVariable String id) {
+        Optional<PublicationsModel> metadatos = publicationsService.findByIdMetadatos(id);
+        return metadatos.map(ResponseEntity::ok)
+                        .orElseGet(() -> ResponseEntity.status(HttpStatus.NO_CONTENT).build());
     }
 }
