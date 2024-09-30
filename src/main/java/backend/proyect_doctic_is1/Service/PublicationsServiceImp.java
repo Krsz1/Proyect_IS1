@@ -26,17 +26,17 @@ public class PublicationsServiceImp implements IPublicationsService {
     }
 
     @Override
-    public List<PublicationsModel> getPublicationsByAuthor(String id) {
-        return publicationsRepository.findByAuthorId(id);
+    public List<PublicationsModel> getPublicationsByAuthor(String idUser) {
+        return publicationsRepository.findByAuthors_IdUser(idUser);
     }
 
     @Override
-    public Optional<PublicationsModel> findPublicationsByid(String id) {
-        return publicationsRepository.findById(id);
+    public Optional<PublicationsModel> findPublicationsByid(String idDocument) {
+        return publicationsRepository.findById(idDocument);
     }
 
     @Override
-    public Optional<PublicationsModel> findByIdMetadatos(String id) {
-        return publicationsRepository.findByIdMetadatos(id);
+    public Optional<PublicationsModel> findByIdMetadatos(String idDocument) {
+        return publicationsRepository.findByIdMetadatos(idDocument);
     }
 }

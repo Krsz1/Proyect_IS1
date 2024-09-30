@@ -39,9 +39,9 @@ public class PublicationsController {
     }
 
     // Buscar publicaciones por autor
-    @GetMapping("/author/{id}")
-    public ResponseEntity<List<PublicationsModel>> getPublicationsByAuthor(@PathVariable String id) {
-        List<PublicationsModel> publications = publicationsService.getPublicationsByAuthor(id);
+    @GetMapping("/author/{idUser}")
+    public ResponseEntity<List<PublicationsModel>> getPublicationsByAuthor(@PathVariable String idUser) {
+        List<PublicationsModel> publications = publicationsService.getPublicationsByAuthor(idUser);
         if (publications.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
