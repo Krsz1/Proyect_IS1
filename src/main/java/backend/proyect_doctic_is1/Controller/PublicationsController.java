@@ -1,9 +1,7 @@
 package backend.proyect_doctic_is1.Controller;
 
-import java.io.FileNotFoundException;
 import java.nio.file.Paths;
 import java.nio.file.Path;
-import java.nio.file.FileSystems;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
