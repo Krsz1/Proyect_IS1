@@ -28,9 +28,10 @@ public class PublicationsController {
         return new ResponseEntity<>(publications, HttpStatus.OK);
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<List<PublicationsModel>> searchPublications(@RequestParam String query) {
-        List<PublicationsModel> publications = publicationsService.searchPublications(query);
+    @GetMapping("/search/{searchTerm}")
+    public ResponseEntity<List<PublicationsModel>> searchPublications(@PathVariable String searchTerm) {
+        List<PublicationsModel> publications = publicationsService.searchPublicationsByTitleOrKeyWord(searchTerm);
         return new ResponseEntity<>(publications, HttpStatus.OK);
     }
+    
 }    

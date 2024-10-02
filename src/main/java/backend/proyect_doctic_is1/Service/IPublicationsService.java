@@ -11,7 +11,7 @@ public interface IPublicationsService {
     List<PublicationsModel> listAll();
 
     // Buscar por tutulo o palabra clave
-    List<PublicationsModel> searchPublications(String query);
+    List<PublicationsModel> searchPublicationsByTitleOrKeyWord(String searchTerm);
 
 }
 

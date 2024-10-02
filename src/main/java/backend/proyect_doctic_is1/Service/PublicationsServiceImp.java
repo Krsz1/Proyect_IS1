@@ -21,8 +21,8 @@ public class PublicationsServiceImp implements IPublicationsService {
     }
 
     @Override
-    public List<PublicationsModel> searchPublications(String query) {
-        return publicationsRepository.findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCase(query, query);
+    public List<PublicationsModel> searchPublicationsByTitleOrKeyWord(String searchTerm) {
+        return publicationsRepository.findByTitleOrDescription(searchTerm, searchTerm);
     }
 
 }

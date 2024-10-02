@@ -15,7 +15,8 @@ public interface IPublicationsRepository extends MongoRepository<PublicationsMod
 
     List<PublicationsModel> findAll();
 
-    List<PublicationsModel> findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCase(String title, String description);
+    List<PublicationsModel> findByTitleOrDescription(String title, String description);
+
 }
 
 //:)
