@@ -20,7 +20,7 @@ import java.util.List;
 public class PublicationsModel {
 
     @Id
-    private String idDocument;
+    private String id;
     private String title;
     private String description;
     private LocalDate publicationDate;
@@ -38,6 +38,7 @@ public class PublicationsModel {
 
     public static class Authors {
         private String idUser;
+        private String username;
         private userRoleAuthors userRoleAuthors;  
     }
 
@@ -47,6 +48,7 @@ public class PublicationsModel {
 
     public static class Category {
         private String idCategoria;
+        private String name;
     }
 
     @Data
