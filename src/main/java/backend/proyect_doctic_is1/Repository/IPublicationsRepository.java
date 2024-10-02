@@ -27,8 +27,12 @@ public interface IPublicationsRepository extends MongoRepository<PublicationsMod
             + " { '?3': { $exists: false } } ] } ] }")
     List<PublicationsModel> filterPublications(LocalDate startDate, LocalDate endDate, String categoryId, String keyword, String description);
 
+    Optional<PublicationsModel> findById(String idDocument);
+
     // Buscar metadatos de la publicación por Id
     @Query(value = "{idDocument:'?0'}", fields = "{'publicationDate':1 , 'authors':1 , 'description':1, 'categories':1}")
     Optional<PublicationsModel> findByIdMetadatos(String idDocument);
+
+    List<PublicationsModel> findByAuthorsIdUser(String authorId);
 
 }

@@ -65,5 +65,12 @@ public class PublicationsServiceImp implements IPublicationsService {
     public Optional<PublicationsModel> findByIdMetadatos(String idDocument) {
         return publicationsRepository.findByIdMetadatos(idDocument);
     }
-    
+
+    public Optional<PublicationsModel> viewPublication(String idDocument) {
+        return publicationsRepository.findById(idDocument);
+    }
+
+    public List<PublicationsModel> getPublicationsByAuthor(String authorId) {
+        return publicationsRepository.findByAuthorsIdUser(authorId);
+    }
 }

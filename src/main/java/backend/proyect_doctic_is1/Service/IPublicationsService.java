@@ -18,9 +18,11 @@ public interface IPublicationsService {
     List<PublicationsModel> filterPublications(LocalDate startDate, LocalDate endDate, String categoryId, String keyword, String description);
 
     // Método para visualizar una publicación por su ID
-  
+    Optional<PublicationsModel> viewPublication(String idDocument);
+
     // Encontrar metadatos de la publicación por Id
     Optional<PublicationsModel> findByIdMetadatos(String id);
     
+    List<PublicationsModel> getPublicationsByAuthor(String authorId);
     }
 
