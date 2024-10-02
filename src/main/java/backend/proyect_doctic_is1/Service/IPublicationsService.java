@@ -8,27 +8,20 @@ import backend.proyect_doctic_is1.Model.PublicationsModel;
 
 public interface IPublicationsService {
     
-    // Encontrar todas las publicaciones que coincidan con el título
-    List<PublicationsModel> findAllbyTitle(String title);
-
     // Listar todas las publicaciones
     List<PublicationsModel> listAll();
 
-    // Encontrar publicaciones por autor
-    List<PublicationsModel> getPublicationsByAuthor(String id);
+    // Buscar por tutulo o palabra clave
+    List<PublicationsModel> searchPublicationsByTitleOrDescription(String searchTerm);
 
-    // Encontrar una publicación por su Id
-    Optional<PublicationsModel> findPublicationsByid(String id);
+    // Método para filtrar publicaciones
+    List<PublicationsModel> filterPublications(LocalDate startDate, LocalDate endDate, String categoryId, String keyword, String description);
+
+    // Método para visualizar una publicación por su ID
+    Optional<PublicationsModel> viewPublication(String idDocument);
 
     // Encontrar metadatos de la publicación por Id
     Optional<PublicationsModel> findByIdMetadatos(String id);
-
-    // Método para filtrar publicaciones
-    List<PublicationsModel> filterPublications(LocalDate startDate, String categoryId, String keyword, String description);
-
-    // Método para registrar la descarga de una publicación
-    void registerDownload(PublicationsModel publication, String username);
-
-}
-
-//:)
+    
+    List<PublicationsModel> getPublicationsByAuthor(String authorId);
+    }
