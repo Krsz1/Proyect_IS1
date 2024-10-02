@@ -11,6 +11,8 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import backend.proyect_doctic_is1.DTOs.PublicationMetadatos;
+import backend.proyect_doctic_is1.Exception.RecursoNoEncontrado;
 import backend.proyect_doctic_is1.Model.PublicationsModel;
 import backend.proyect_doctic_is1.Repository.IPublicationsRepository;
 
@@ -61,16 +63,4 @@ public class PublicationsServiceImp implements IPublicationsService {
         return mongoTemplate.find(query, PublicationsModel.class);
     }
 
-    @Override
-    public Optional<PublicationsModel> findByIdMetadatos(String idDocument) {
-        return publicationsRepository.findByIdMetadatos(idDocument);
-    }
-
-    public Optional<PublicationsModel> viewPublication(String idDocument) {
-        return publicationsRepository.findById(idDocument);
-    }
-
-    public List<PublicationsModel> getPublicationsByAuthor(String authorId) {
-        return publicationsRepository.findByAuthorsIdUser(authorId);
-    }
 }

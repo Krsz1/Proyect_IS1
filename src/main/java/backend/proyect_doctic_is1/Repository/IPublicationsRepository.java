@@ -5,10 +5,12 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import backend.proyect_doctic_is1.DTOs.PublicationMetadatos;
 import backend.proyect_doctic_is1.Model.PublicationsModel;
 
 @Repository
@@ -26,13 +28,5 @@ public interface IPublicationsRepository extends MongoRepository<PublicationsMod
             + " { $or: [ { 'title': { $regex: ?3, $options: 'i' } }, { 'description': { $regex: ?4, $options: 'i' } }, "
             + " { '?3': { $exists: false } } ] } ] }")
     List<PublicationsModel> filterPublications(LocalDate startDate, LocalDate endDate, String categoryId, String keyword, String description);
-
-    Optional<PublicationsModel> findById(String idDocument);
-
-    // Buscar metadatos de la publicación por Id
-    @Query(value = "{idDocument:'?0'}", fields = "{'publicationDate':1 , 'authors':1 , 'description':1, 'categories':1}")
-    Optional<PublicationsModel> findByIdMetadatos(String idDocument);
-
-    List<PublicationsModel> findByAuthorsIdUser(String authorId);
 
 }
