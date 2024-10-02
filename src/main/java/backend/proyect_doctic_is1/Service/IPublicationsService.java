@@ -2,7 +2,7 @@ package backend.proyect_doctic_is1.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-
+import java.util.Optional;
 
 import backend.proyect_doctic_is1.Model.PublicationsModel;
 
@@ -16,5 +16,11 @@ public interface IPublicationsService {
 
     // Método para filtrar publicaciones
     List<PublicationsModel> filterPublications(LocalDate startDate, LocalDate endDate, String categoryId, String keyword, String description);
+
+    // Método para visualizar una publicación por su ID
+  
+    // Encontrar metadatos de la publicación por Id
+    Optional<PublicationsModel> findByIdMetadatos(String id);
+    
     }
 

@@ -3,11 +3,13 @@ package backend.proyect_doctic_is1.Controller;
 import java.time.LocalDate;
 import java.util.List;
 
-
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import backend.proyect_doctic_is1.Model.PublicationsModel;
+import backend.proyect_doctic_is1.Model.ENUM.visibility;
 import backend.proyect_doctic_is1.Service.IPublicationsService;
 
 @RequestMapping("/api/publications")
@@ -51,5 +54,12 @@ public class PublicationsController {
         }
         return ResponseEntity.ok(publications);
     }
-    
+
+    // Buscar metadatos de la publicación por ID
+    @GetMapping("/metadatos/{id}")
+    public ResponseEntity<PublicationsModel> findByIdMetadatos(@PathVariable String id) {
+        Optional<PublicationsModel> metadatos = publicationsService.findByIdMetadatos(id);
+        return metadatos.map(ResponseEntity::ok)
+                        .orElseGet(() -> ResponseEntity.status(HttpStatus.NO_CONTENT).build());
+    }
 }    
