@@ -4,32 +4,24 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import backend.proyect_doctic_is1.Model.PublicationsModel;
 import backend.proyect_doctic_is1.Repository.IPublicationsRepository;
 
-import backend.proyect_doctic_is1.Model.UsersModel;
-import backend.proyect_doctic_is1.Repository.IUsersRepository;
-
-
 @Service
 public class PublicationsServiceImp implements IPublicationsService {
 
     @Autowired
     private IPublicationsRepository publicationsRepository;
-    private IUsersRepository usersRepository;
 
-    @Override
-    public List<PublicationsModel> filterPublications(LocalDate startDate, String categoryId, String keyword, String description) {
-        return publicationsRepository.filterPublications(startDate, categoryId, keyword, description);
-    }
-
-    @Override
-    public List<PublicationsModel> findAllbyTitle(String title) {
-        return publicationsRepository.findAllByTitle(title);
-    }
+    @Autowired
+    private MongoTemplate mongoTemplate;  // Inyectar MongoTemplate correctamente
 
     @Override
     public List<PublicationsModel> listAll() {
@@ -37,13 +29,36 @@ public class PublicationsServiceImp implements IPublicationsService {
     }
 
     @Override
-    public List<PublicationsModel> getPublicationsByAuthor(String idUser) {
-        return publicationsRepository.findByAuthors_IdUser(idUser);
+    public List<PublicationsModel> searchPublicationsByTitleOrDescription(String keyword) {
+        Query query = new Query();
+        query.addCriteria(new Criteria().orOperator(
+            Criteria.where("title").regex(keyword, "i"),
+            Criteria.where("description").regex(keyword, "i")
+        ));
+        return mongoTemplate.find(query, PublicationsModel.class);
     }
 
     @Override
-    public Optional<PublicationsModel> findPublicationsByid(String idDocument) {
-        return publicationsRepository.findById(idDocument);
+    public List<PublicationsModel> filterPublications(LocalDate startDate, LocalDate endDate, String categoryId, String keyword, String description) {
+        Query query = new Query();
+
+        if (startDate != null && endDate != null) {
+            query.addCriteria(Criteria.where("publicationDate").gte(startDate).lte(endDate));
+        }
+        if (categoryId != null && !categoryId.isEmpty()) {
+            query.addCriteria(Criteria.where("categories._idCategoria").is(new ObjectId(categoryId)));
+        }
+        if (keyword != null && !keyword.isEmpty()) {
+            query.addCriteria(new Criteria().orOperator(
+                Criteria.where("title").regex(keyword, "i"),
+                Criteria.where("description").regex(keyword, "i")
+            ));
+        }
+        if (description != null && !description.isEmpty()) {
+            query.addCriteria(Criteria.where("description").regex(description, "i"));
+        }
+
+        return mongoTemplate.find(query, PublicationsModel.class);
     }
 
     @Override
@@ -51,16 +66,11 @@ public class PublicationsServiceImp implements IPublicationsService {
         return publicationsRepository.findByIdMetadatos(idDocument);
     }
 
-    @Override
-    public void registerDownload(PublicationsModel publication, String username) {
-        UsersModel user = usersRepository.findByUsername(username);
-    
-        // Sirve para Registrar la descarga
-        UsersModel.DownloadedDocs downloadedDoc = new UsersModel.DownloadedDocs(publication.getIdDocument(), publication.getTitle(), LocalDate.now());
-        user.getDownloadedDocs().add(downloadedDoc);
-    
-        usersRepository.save(user);
+    public Optional<PublicationsModel> viewPublication(String idDocument) {
+        return publicationsRepository.findById(idDocument);
+    }
+
+    public List<PublicationsModel> getPublicationsByAuthor(String authorId) {
+        return publicationsRepository.findByAuthorsIdUser(authorId);
     }
 }
-
-//:)
