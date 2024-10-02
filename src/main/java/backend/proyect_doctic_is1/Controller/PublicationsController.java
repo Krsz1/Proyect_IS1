@@ -3,7 +3,7 @@ package backend.proyect_doctic_is1.Controller;
 import java.time.LocalDate;
 import java.util.List;
 
-import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -53,10 +53,7 @@ public class PublicationsController {
     }
 
     // Buscar metadatos de la publicación por ID
-    @GetMapping("/metadatos/{id}")
-    public ResponseEntity<PublicationsModel> findByIdMetadatos(@PathVariable String id) {
-        Optional<PublicationsModel> metadatos = publicationsService.findByIdMetadatos(id);
-        return metadatos.map(ResponseEntity::ok)
-                        .orElseGet(() -> ResponseEntity.status(HttpStatus.NO_CONTENT).build());
-    }
+
 }    
+
+//Krs

@@ -2,7 +2,6 @@ package backend.proyect_doctic_is1.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -61,16 +60,6 @@ public class PublicationsServiceImp implements IPublicationsService {
         return mongoTemplate.find(query, PublicationsModel.class);
     }
 
-    @Override
-    public Optional<PublicationsModel> findByIdMetadatos(String idDocument) {
-        return publicationsRepository.findByIdMetadatos(idDocument);
-    }
-
-    public Optional<PublicationsModel> viewPublication(String idDocument) {
-        return publicationsRepository.findById(idDocument);
-    }
-
-    public List<PublicationsModel> getPublicationsByAuthor(String authorId) {
-        return publicationsRepository.findByAuthorsIdUser(authorId);
-    }
 }
+
+//Krs
