@@ -13,15 +13,9 @@ import backend.proyect_doctic_is1.Model.PublicationsModel;
 @Repository
 public interface IPublicationsRepository extends MongoRepository<PublicationsModel, String> {
 
-    // Buscar publicaciones por título
-    List<PublicationsModel> findAllByTitle(String title);
+    List<PublicationsModel> findAll();
 
-    // Buscar publicaciones por el Id de un autor en la lista de autores
-    List<PublicationsModel> findByAuthors_IdUser(String idUser);
-
-    // Buscar metadatos de la publicación por Id
-    @Query(value = "{idDocument:'?0'}", fields = "{'publicationDate':1 , 'authors':1 , 'description':1, 'categories':1}")
-    Optional<PublicationsModel> findByIdMetadatos(String idDocument);
+    List<PublicationsModel> findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCase(String title, String description);
 }
 
 //:)

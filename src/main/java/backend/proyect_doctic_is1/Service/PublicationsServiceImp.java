@@ -16,29 +16,15 @@ public class PublicationsServiceImp implements IPublicationsService {
     private IPublicationsRepository publicationsRepository;
 
     @Override
-    public List<PublicationsModel> findAllbyTitle(String title) {
-        return publicationsRepository.findAllByTitle(title);
-    }
-
-    @Override
     public List<PublicationsModel> listAll() {
         return publicationsRepository.findAll();
     }
 
     @Override
-    public List<PublicationsModel> getPublicationsByAuthor(String idUser) {
-        return publicationsRepository.findByAuthors_IdUser(idUser);
+    public List<PublicationsModel> searchPublications(String query) {
+        return publicationsRepository.findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCase(query, query);
     }
 
-    @Override
-    public Optional<PublicationsModel> findPublicationsByid(String idDocument) {
-        return publicationsRepository.findById(idDocument);
-    }
-
-    @Override
-    public Optional<PublicationsModel> findByIdMetadatos(String idDocument) {
-        return publicationsRepository.findByIdMetadatos(idDocument);
-    }
 }
 
 //:) 
