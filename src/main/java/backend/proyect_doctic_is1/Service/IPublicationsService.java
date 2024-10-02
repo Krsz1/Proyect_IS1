@@ -2,11 +2,7 @@ package backend.proyect_doctic_is1.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
-import org.bson.types.ObjectId;
-
-import backend.proyect_doctic_is1.DTOs.PublicationMetadatos;
 import backend.proyect_doctic_is1.Model.PublicationsModel;
 
 public interface IPublicationsService {

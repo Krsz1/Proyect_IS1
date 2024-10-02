@@ -2,7 +2,6 @@ package backend.proyect_doctic_is1.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -11,8 +10,6 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import backend.proyect_doctic_is1.DTOs.PublicationMetadatos;
-import backend.proyect_doctic_is1.Exception.RecursoNoEncontrado;
 import backend.proyect_doctic_is1.Model.PublicationsModel;
 import backend.proyect_doctic_is1.Repository.IPublicationsRepository;
 

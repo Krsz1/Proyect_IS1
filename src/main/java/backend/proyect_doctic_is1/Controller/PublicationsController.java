@@ -3,7 +3,7 @@ package backend.proyect_doctic_is1.Controller;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.bson.types.ObjectId;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import backend.proyect_doctic_is1.DTOs.PublicationMetadatos;
-import backend.proyect_doctic_is1.Exception.RecursoNoEncontrado;
 import backend.proyect_doctic_is1.Model.PublicationsModel;
 import backend.proyect_doctic_is1.Service.IPublicationsService;
 
