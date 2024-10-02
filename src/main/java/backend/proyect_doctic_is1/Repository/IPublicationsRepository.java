@@ -29,3 +29,5 @@ public interface IPublicationsRepository extends MongoRepository<PublicationsMod
     List<PublicationsModel> filterPublications(LocalDate startDate, LocalDate endDate, String categoryId, String keyword, String description);
 
 }
+
+//Krs
