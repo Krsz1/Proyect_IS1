@@ -6,8 +6,7 @@ import java.util.List;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.MongoTemplate;
-
-
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +45,7 @@ public class PublicationsServiceImp implements IPublicationsService {
             query.addCriteria(Criteria.where("publicationDate").gte(startDate).lte(endDate));
         }
         if (categoryId != null && !categoryId.isEmpty()) {
-            query.addCriteria(Criteria.where("categories.idCategoria").is(categoryId));
+            query.addCriteria(Criteria.where("categories._idCategoria").is(new ObjectId(categoryId)));
         }
         if (keyword != null && !keyword.isEmpty()) {
             query.addCriteria(new Criteria().orOperator(
