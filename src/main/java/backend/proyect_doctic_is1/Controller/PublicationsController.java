@@ -110,7 +110,15 @@ public class PublicationsController {
     }
 
     
-
+    // Endpoint para obtener todas las publicaciones con visibilidad pública
+    @GetMapping("/public")
+    public ResponseEntity<List<PublicationsModel>> getPublicPublications() {
+        List<PublicationsModel> publications = publicationsService.getAllPublicPublications();
+        if (publications.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(publications);
+    }
 }    
 
 //Krs

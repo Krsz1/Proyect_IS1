@@ -36,6 +36,9 @@ public interface IPublicationsRepository extends MongoRepository<PublicationsMod
     //buscar las publicaciones de un autor
     @Query("{'authors.username':?0}")
     List<PublicationsModel> findByAuthor(String username);
+
+    // Consulta para obtener todas las publicaciones públicas
+    List<PublicationsModel> findByVisibility(String visibility);
 }
 
 //Krs

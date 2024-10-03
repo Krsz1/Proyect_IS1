@@ -90,6 +90,14 @@ public class PublicationsServiceImp implements IPublicationsService {
         return publication.orElseThrow(()-> new RecursoNoEncontrado("la publicacion no existe en la BD"));
     }
 
+    @Override
+    // Método para obtener todas las publicaciones públicas
+    public List<PublicationsModel> getAllPublicPublications() {
+        return publicationsRepository.findByVisibility("publics");
+    }
+
+
+
 }
 
 //Krs
