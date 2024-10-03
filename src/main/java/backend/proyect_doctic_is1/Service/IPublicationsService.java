@@ -3,6 +3,9 @@ package backend.proyect_doctic_is1.Service;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.bson.types.ObjectId;
+
+import backend.proyect_doctic_is1.DTOs.PublicationMetadatos;
 import backend.proyect_doctic_is1.Model.PublicationsModel;
 
 public interface IPublicationsService {
@@ -14,8 +17,17 @@ public interface IPublicationsService {
     List<PublicationsModel> searchPublicationsByTitleOrDescription(String searchTerm);
 
     // Método para filtrar publicaciones
-    List<PublicationsModel> filterPublications(LocalDate startDate, LocalDate endDate, String categoryId, String keyword, String description);
+    List<PublicationsModel> filterPublications(LocalDate startDate, LocalDate endDate, String categoryName, String keyword, String description);
+
+
+    // Metodo para buscar los metadatos de la publicacion
+    PublicationMetadatos findByIdMetadatos (ObjectId id);
+
+    //Metodo para buscar las publicaciones de un autor
+    List<PublicationsModel> findByAuthor(String username);
 
     }
+
+    
 
 //Krs

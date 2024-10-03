@@ -2,14 +2,17 @@ package backend.proyect_doctic_is1.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-
+import java.util.Optional;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.MongoTemplate;
+
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import backend.proyect_doctic_is1.DTOs.PublicationMetadatos;
+import backend.proyect_doctic_is1.Exception.RecursoNoEncontrado;
 import backend.proyect_doctic_is1.Model.PublicationsModel;
 import backend.proyect_doctic_is1.Repository.IPublicationsRepository;
 
@@ -38,14 +41,14 @@ public class PublicationsServiceImp implements IPublicationsService {
     }
 
     @Override
-    public List<PublicationsModel> filterPublications(LocalDate startDate, LocalDate endDate, String categoryId, String keyword, String description) {
+    public List<PublicationsModel> filterPublications(LocalDate startDate, LocalDate endDate, String categoryName, String keyword, String description) {
         Query query = new Query();
 
         if (startDate != null && endDate != null) {
             query.addCriteria(Criteria.where("publicationDate").gte(startDate).lte(endDate));
         }
-        if (categoryId != null && !categoryId.isEmpty()) {
-            query.addCriteria(Criteria.where("categories._idCategoria").is(new ObjectId(categoryId)));
+        if (categoryName != null && !categoryName.isEmpty()) {
+            query.addCriteria(Criteria.where("categories.name").regex(categoryName));
         }
         if (keyword != null && !keyword.isEmpty()) {
             query.addCriteria(new Criteria().orOperator(
@@ -58,6 +61,26 @@ public class PublicationsServiceImp implements IPublicationsService {
         }
 
         return mongoTemplate.find(query, PublicationsModel.class);
+    }
+
+
+    // Metodo para buscar los metadatos de la publicacion
+    @Override
+    public PublicationMetadatos findByIdMetadatos(ObjectId id) {
+        Optional<PublicationMetadatos> publicationMetadatos = publicationsRepository.findMetadatosById(id);
+        return publicationMetadatos.orElseThrow(()-> new RecursoNoEncontrado("la publicacion no existe en la BD"));
+    }
+
+    // Metodo para buscar las publicaciones de un autor
+    @Override
+    public List<PublicationsModel> findByAuthor(String username) {
+        List<PublicationsModel> publications = publicationsRepository.findByAuthor(username);
+
+        if (publications.isEmpty()) {
+            throw new RecursoNoEncontrado("El autor no tiene publicaciones disponibles ");
+        }
+
+        return publications;
     }
 
 }
