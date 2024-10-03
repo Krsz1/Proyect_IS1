@@ -26,6 +26,9 @@ public interface IPublicationsService {
     //Metodo para buscar las publicaciones de un autor
     List<PublicationsModel> findByAuthor(String username);
 
+    // Metodo para buscar la publicacion por id
+    PublicationsModel findPublicationsByid(String id);
+
     }
 
     
