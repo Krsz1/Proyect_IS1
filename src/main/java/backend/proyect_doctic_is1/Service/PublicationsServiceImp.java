@@ -83,6 +83,13 @@ public class PublicationsServiceImp implements IPublicationsService {
         return publications;
     }
 
+    // metodo para buscar publicacion por id
+    @Override
+    public PublicationsModel findPublicationsByid(String id) {
+        Optional<PublicationsModel> publication = publicationsRepository.findById(id);
+        return publication.orElseThrow(()-> new RecursoNoEncontrado("la publicacion no existe en la BD"));
+    }
+
 }
 
 //Krs
