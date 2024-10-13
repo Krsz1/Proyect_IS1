@@ -32,7 +32,11 @@ public interface IPublicationsService {
     // Metodo para buscar las publicas 
     List<PublicationsModel> getAllPublicPublications();
 
-    }
+    List<PublicationsModel> sortMostValuedPublications();
+
+    List<PublicationsModel> sortMostSeenPublications();
+    
+    }//end class
 
     
 

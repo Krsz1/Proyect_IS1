@@ -3,12 +3,13 @@ package backend.proyect_doctic_is1.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.MongoTemplate;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import backend.proyect_doctic_is1.DTOs.PublicationMetadatos;
@@ -94,6 +95,16 @@ public class PublicationsServiceImp implements IPublicationsService {
     // Método para obtener todas las publicaciones públicas
     public List<PublicationsModel> getAllPublicPublications() {
         return publicationsRepository.findByVisibility("publics");
+    }
+
+    @Override
+    public List<PublicationsModel> sortMostValuedPublications() {
+        return publicationsRepository.findAll(Sort.by(Sort.Direction.DESC, "DocsFilesInfo.avgRating"));
+    }
+
+    @Override
+    public List<PublicationsModel> sortMostSeenPublications() {
+        return publicationsRepository.findAll(Sort.by(Sort.Direction.DESC, "DocsFilesInfo.totalViews"));
     }
 
 

@@ -119,6 +119,25 @@ public class PublicationsController {
         }
         return ResponseEntity.ok(publications);
     }
-}    
+
+    @GetMapping("/MostValued")
+    public ResponseEntity<List<PublicationsModel>> sortByRating(){
+        List<PublicationsModel> publications = publicationsService.sortMostValuedPublications();
+        if(publications.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(publications);
+    }
+
+    @GetMapping("/MostSeen")
+    public ResponseEntity<List<PublicationsModel>> sortByviews(){
+        List<PublicationsModel> publications = publicationsService.sortMostSeenPublications();
+        if(publications.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(publications);
+    }
+
+}//end controller    
 
 //Krs
