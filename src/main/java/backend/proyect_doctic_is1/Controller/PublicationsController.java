@@ -138,6 +138,24 @@ public class PublicationsController {
         return ResponseEntity.ok(publications);
     }
 
+
+    //Listar Publicaciones del Cliente epica 2 santiago
+    @RestController
+@RequestMapping("/api/publications")
+public class PublicationsController {
+
+    @Autowired
+    private PublicationsService publicationsService;
+
+    // Endpoint para obtener todas las publicaciones de un usuario por su ID
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<PublicationsModel>> getPublicationsByUserId(@PathVariable String userId) {
+        List<PublicationsModel> publications = publicationsService.getPublicationsByUserId(userId);
+        return new ResponseEntity<>(publications, HttpStatus.OK);
+    }
+}
+
+
 }//end controller    
 
 //Krs

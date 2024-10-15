@@ -35,6 +35,8 @@ public interface IPublicationsService {
     List<PublicationsModel> sortMostValuedPublications();
 
     List<PublicationsModel> sortMostSeenPublications();
+
+    List<PublicationsModel> getPublicationsByUserId();
     
     }//end class
 

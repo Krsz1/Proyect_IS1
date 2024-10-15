@@ -39,6 +39,11 @@ public interface IPublicationsRepository extends MongoRepository<PublicationsMod
 
     // Consulta para obtener todas las publicaciones públicas
     List<PublicationsModel> findByVisibility(String visibility);
+
+    // Método para encontrar todas las publicaciones de un usuario
+    List<PublicationsModel> findByAuthors_idUser(String userId);
+
+
 }
 
 //Krs
