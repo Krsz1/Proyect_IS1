@@ -107,12 +107,15 @@ public class PublicationsServiceImp implements IPublicationsService {
         return publicationsRepository.findAll(Sort.by(Sort.Direction.DESC, "DocsFilesInfo.totalViews"));
     }
 
-    @Autowired
-    private PublicationsRepository publicationsRepository;
-
     // Lógica para obtener todas las publicaciones de un usuario por su ID
     public List<PublicationsModel> getPublicationsByUserId(String userId) {
         return publicationsRepository.findByAuthors_idUser(userId);
+    }
+
+    @Override
+    public String guardarPublicacion(PublicationsModel publicacion) {
+        publicationsRepository.save(publicacion);
+        return "La publicacion fue guardada con exito";
     }
     
 

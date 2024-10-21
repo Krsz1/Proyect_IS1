@@ -10,6 +10,9 @@ import backend.proyect_doctic_is1.Model.PublicationsModel;
 
 public interface IPublicationsService {
     
+    //crear Publicacion
+    String guardarPublicacion(PublicationsModel publicacion);
+
     // Listar todas las publicaciones
     List<PublicationsModel> listAll();
 
@@ -36,7 +39,7 @@ public interface IPublicationsService {
 
     List<PublicationsModel> sortMostSeenPublications();
 
-    List<PublicationsModel> getPublicationsByUserId();
+    List<PublicationsModel> getPublicationsByUserId(String id);
     
     }//end class
 

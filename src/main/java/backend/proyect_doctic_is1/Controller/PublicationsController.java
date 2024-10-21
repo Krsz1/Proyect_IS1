@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -138,23 +140,17 @@ public class PublicationsController {
         return ResponseEntity.ok(publications);
     }
 
-
-    //Listar Publicaciones del Cliente epica 2 santiago
-    @RestController
-@RequestMapping("/api/publications")
-public class PublicationsController {
-
-    @Autowired
-    private PublicationsService publicationsService;
-
     // Endpoint para obtener todas las publicaciones de un usuario por su ID
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<PublicationsModel>> getPublicationsByUserId(@PathVariable String userId) {
-        List<PublicationsModel> publications = publicationsService.getPublicationsByUserId(userId);
+        List<PublicationsModel> publications = publicationsService.getPublicationsByUserId (userId);
         return new ResponseEntity<>(publications, HttpStatus.OK);
     }
-}
 
+    @PostMapping("/createPublication")
+    public ResponseEntity<String> crearPublicacion(@RequestBody PublicationsModel publicaacion){
+        return new ResponseEntity<String>(publicationsService.guardarPublicacion(publicaacion), HttpStatus.CREATED);
+    }
 
 }//end controller    
 
