@@ -1,6 +1,7 @@
 package backend.proyect_doctic_is1.Repository;
 
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -8,6 +9,7 @@ import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import backend.proyect_doctic_is1.DTOs.PublicationMetadatos;
@@ -42,7 +44,7 @@ public interface IPublicationsRepository extends MongoRepository<PublicationsMod
     List<PublicationsModel> findByVisibility(String visibility);
 
     // Método para encontrar todas las publicaciones de un usuario
-    List<PublicationsModel> findByAuthors_idUser(String userId);
+    List<PublicationsModel> findByAuthors_idUser(Long userId);
 
     //Metodo para eliminar una publicacion
     List<PublicationsModel> getPublicationsByAuthor(String authorId);
@@ -50,7 +52,22 @@ public interface IPublicationsRepository extends MongoRepository<PublicationsMod
     // Método para buscar todas las publicaciones por idUser (el autor)
     List<PublicationsModel> findByIdUser(String idUser);
     
-    
+    // Método personalizado para buscar publicaciones por usuario
+    List<PublicationsModel> findByUserId(Long userId);
+
+    // Búsqueda por título
+    List<PublicationsModel> findByTitleContainingIgnoreCase(String title);
+
+    // Búsqueda por autor (filtrando por el ID del usuario autor)
+    List<PublicationsModel> findByAuthorsContains(String idUser);
+
+    // Búsqueda por categoría
+    List<PublicationsModel> findByCategories_id(String idCategory);
+
+    // Búsqueda por fecha de publicación (ejemplo de rango)
+    @Query("SELECT p FROM PublicationsModel p WHERE p.publicationDate BETWEEN :startDate AND :endDate")
+    List<PublicationsModel> findByPublicationDateBetween(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 }
+
 
 //Krs

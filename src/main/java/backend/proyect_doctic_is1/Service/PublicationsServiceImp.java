@@ -1,6 +1,8 @@
 package backend.proyect_doctic_is1.Service;
 
+import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -111,7 +113,7 @@ public class PublicationsServiceImp implements IPublicationsService {
     }
 
     // Lógica para obtener todas las publicaciones de un usuario por su ID
-    public List<PublicationsModel> getPublicationsByUserId(String userId) {
+    public List<PublicationsModel> getPublicationsByUserId(Long userId) {
         return publicationsRepository.findByAuthors_idUser(userId);
     }
 
@@ -145,7 +147,38 @@ public class PublicationsServiceImp implements IPublicationsService {
         throw new UnsupportedOperationException("'findByUserId'");
     }
 
+    @Override
+    public List<PublicationsModel> getPublicationsByUserId(String id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("'getPublicationsByUserId'");
+    }
+
+    @Autowired
+    private PublicationsModel publicationRepository;
+
+    public List<PublicationsModel> getPublicationsByUser(Long userId) {
+        return publicationRepository.findByUserId(userId);
+    }
     
+    // Filtrar publicaciones por diferentes criterios
+    public List<PublicationsModel> filterPublications(String title, String idUser, String idCategory, Date startDate, Date endDate) {
+        List<PublicationsModel> result = new ArrayList<>();
+
+        if (title != null) {
+            result.addAll(publicationsRepository.findByTitleContainingIgnoreCase(title));
+        }
+        if (idUser != null) {
+            result.addAll(publicationsRepository.findByAuthorsContains(idUser));
+        }
+        if (idCategory != null) {
+            result.addAll(publicationsRepository.findByCategories_id(idCategory));
+        }
+        if (startDate != null && endDate != null) {
+            result.addAll(publicationsRepository.findByPublicationDateBetween(startDate, endDate));
+        }
+
+        return result;
+    }
 
 }
 

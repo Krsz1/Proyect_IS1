@@ -1,5 +1,6 @@
 package backend.proyect_doctic_is1.Controller;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -23,6 +24,7 @@ import backend.proyect_doctic_is1.DTOs.PublicationMetadatos;
 import backend.proyect_doctic_is1.Exception.RecursoNoEncontrado;
 import backend.proyect_doctic_is1.Model.PublicationsModel;
 import backend.proyect_doctic_is1.Service.IPublicationsService;
+import backend.proyect_doctic_is1.Service.PublicationsServiceImp;
 
 @RequestMapping("/api/publications")
 @RestController
@@ -30,6 +32,9 @@ public class PublicationsController {
     
     @Autowired
     private IPublicationsService publicationsService;
+
+    public PublicationsController() {
+    }
 
     @GetMapping("/listAllPublications")
     public ResponseEntity<List<PublicationsModel>> getAllPublications() {
@@ -175,7 +180,35 @@ public class PublicationsController {
         return publicationsService.findByUserId(idUser);
     }
 
+
+    @Autowired
+    private PublicationsServiceImp publicationService;
+
+    @GetMapping("/user/{userId}")
+
+    public List<PublicationsModel> getPublicationsByUser(@PathVariable Long userId) {
+        return publicationService.getPublicationsByUserId(userId);
+    }
+ 
+    // Método GET para filtrar publicaciones
+    @GetMapping("/filter")
+    public ResponseEntity<List<PublicationsModel>> filterPublications(
+            @RequestParam(value = "title", required = false) String title,
+            @RequestParam(value = "idUser", required = false) String idUser,
+            @RequestParam(value = "idCategory", required = false) String idCategory,
+            @RequestParam(value = "startDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+            @RequestParam(value = "endDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
+
+        List<PublicationsModel> filteredPublications = publicationsService.filterPublications(title, idUser, idCategory, startDate, endDate);
+
+        if (filteredPublications.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        return new ResponseEntity<>(filteredPublications, HttpStatus.OK);
+    }
 }
+
 
 
 

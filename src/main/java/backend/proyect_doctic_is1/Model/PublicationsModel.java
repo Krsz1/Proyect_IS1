@@ -1,16 +1,16 @@
 package backend.proyect_doctic_is1.Model;
 
-import backend.proyect_doctic_is1.Model.ENUM.visibility;
-import backend.proyect_doctic_is1.Model.ENUM.userRoleAuthors;
+import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import backend.proyect_doctic_is1.Model.ENUM.userRoleAuthors;
+import backend.proyect_doctic_is1.Model.ENUM.visibility;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -71,5 +71,10 @@ public class PublicationsModel {
         private double avgRating;
         private int totalComments;
         private int totalViews;
+    }
+
+    public List<PublicationsModel> findByUserId(Long userId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findByUserId'");
     }
 }

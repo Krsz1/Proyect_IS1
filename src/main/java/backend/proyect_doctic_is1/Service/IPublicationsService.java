@@ -1,5 +1,6 @@
 package backend.proyect_doctic_is1.Service;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -44,6 +45,10 @@ public interface IPublicationsService {
     boolean deletePublication(String publicationId, String userId);
 
     List<PublicationsModel> findByUserId(String idUser);
+
+    List<PublicationsModel> filterPublications(String title, String idUser, String idCategory, Date startDate,
+            Date endDate);
+
     
     }//end class
 
