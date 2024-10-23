@@ -26,6 +26,9 @@ public class PublicationsServiceImp implements IPublicationsService {
     @Autowired
     private MongoTemplate mongoTemplate;  // Inyectar MongoTemplate correctamente
 
+    public PublicationsServiceImp() {
+    }
+
     @Override
     public List<PublicationsModel> listAll() {
         return publicationsRepository.findAll();
@@ -117,9 +120,35 @@ public class PublicationsServiceImp implements IPublicationsService {
         publicationsRepository.save(publicacion);
         return "La publicacion fue guardada con exito";
     }
+
+    
+    // Método para verificar si el usuario es el autor de la publicación
+    public boolean isAuthorOfPublication(String publicationId, String userId) {
+        PublicationsModel publication = publicationsRepository.findById(publicationId).orElse(null);
+        return publication != null && publication.getAuthors().contains(userId);
+    }
+
+    // Método para eliminar la publicación (ya sin necesidad de verificar el autor)
+    public void deletePublication(String publicationId) {
+        publicationsRepository.deleteById(publicationId);
+    }
+
+    @Override
+    public boolean deletePublication(String publicationId, String userId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("'deletePublication'");
+    }
+
+    @Override
+    public List<PublicationsModel> findByUserId(String idUser) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("'findByUserId'");
+    }
+
     
 
-
 }
+
+
 
 //Krs

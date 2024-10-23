@@ -4,6 +4,7 @@ package backend.proyect_doctic_is1.Repository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
@@ -43,7 +44,13 @@ public interface IPublicationsRepository extends MongoRepository<PublicationsMod
     // Método para encontrar todas las publicaciones de un usuario
     List<PublicationsModel> findByAuthors_idUser(String userId);
 
-
+    //Metodo para eliminar una publicacion
+    List<PublicationsModel> getPublicationsByAuthor(String authorId);
+    
+    // Método para buscar todas las publicaciones por idUser (el autor)
+    List<PublicationsModel> findByIdUser(String idUser);
+    
+    
 }
 
 //Krs

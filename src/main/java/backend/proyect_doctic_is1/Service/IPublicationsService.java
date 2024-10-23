@@ -40,6 +40,10 @@ public interface IPublicationsService {
     List<PublicationsModel> sortMostSeenPublications();
 
     List<PublicationsModel> getPublicationsByUserId(String id);
+
+    boolean deletePublication(String publicationId, String userId);
+
+    List<PublicationsModel> findByUserId(String idUser);
     
     }//end class
 

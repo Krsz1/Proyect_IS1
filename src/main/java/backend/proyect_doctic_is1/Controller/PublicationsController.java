@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -152,6 +153,32 @@ public class PublicationsController {
         return new ResponseEntity<String>(publicationsService.guardarPublicacion(publicaacion), HttpStatus.CREATED);
     }
 
-}//end controller    
+
+    // Método para eliminar una publicación por su ID
+    @DeleteMapping("/{publicationId}")
+    public ResponseEntity<String> deletePublication(@PathVariable String publicationId, @RequestParam String userId) {
+        boolean isDeleted = publicationsService.deletePublication(publicationId, userId);
+        if (isDeleted) {
+            return new ResponseEntity<>("Publicación eliminada correctamente", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("No tiene permisos para eliminar esta publicación", HttpStatus.FORBIDDEN);
+        }
+    }
+
+    public PublicationsController(PublicationsModel publicationsService) {
+        this.publicationsService = (IPublicationsService) publicationsService;
+    }
+
+    // Método para listar publicaciones por cliente (idUser)
+    @GetMapping("/user/{idUser}")
+    public List<PublicationsModel> getPublicationsByUser(@PathVariable String idUser) {
+        return publicationsService.findByUserId(idUser);
+    }
+
+}
+
+
+
+//end controller    
 
 //Krs
