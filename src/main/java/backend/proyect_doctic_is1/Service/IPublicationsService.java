@@ -32,6 +32,12 @@ public interface IPublicationsService {
     // Metodo para buscar las publicas 
     List<PublicationsModel> getAllPublicPublications();
 
+    // Metodo para crear una publicacion
+    String createPublication(PublicationsModel publication);
+
+    // Metodo para modificar una publicacion
+    String updatePublication(PublicationsModel publication,String id);
+
     }
 
     

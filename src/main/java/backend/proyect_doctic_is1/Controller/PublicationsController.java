@@ -11,6 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -118,6 +121,28 @@ public class PublicationsController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(publications);
+    }
+
+
+    // Endpoint para crear las publicaciones
+    @PostMapping("/createPublication")
+    public ResponseEntity<String> createPublication(@RequestBody PublicationsModel publication){
+        return new ResponseEntity<String>(publicationsService.createPublication(publication),HttpStatus.OK);
+    }
+
+
+    //Endpoint para actualizar una pubicacion
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updatePublication(@RequestBody PublicationsModel publication, @PathVariable String id){
+        try {
+            PublicationsModel publicationRecuperada = publicationsService.findPublicationsByid(id);
+            if (publicationRecuperada != null) {
+                return new ResponseEntity<String>(publicationsService.updatePublication(publication, id),HttpStatus.OK);
+            }
+        } catch (RecursoNoEncontrado e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+        return null;
     }
 }    
 

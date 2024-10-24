@@ -25,7 +25,7 @@ public class PublicationsModel {
     private String description;
     private LocalDate publicationDate;
     private String urlFiles;
-    private visibility visibility; 
+    private String visibility; 
     
     private List<Authors> authors;
     private List<Category> categories;

@@ -97,6 +97,31 @@ public class PublicationsServiceImp implements IPublicationsService {
     }
 
 
+    //Metodo para Crear una publicacion
+    @Override
+    public String createPublication(PublicationsModel publication) {
+        publicationsRepository.save(publication);
+        return "La publicacion "+publication.getTitle()+" Se ha creado con exito.";
+
+    }
+
+    // Metodo para actualizar una publicacion
+    @Override
+    public String updatePublication(PublicationsModel publication, String id) {
+        Optional<PublicationsModel> publicationRecuperada = publicationsRepository.findById(id);
+
+        PublicationsModel publicationsModel = publicationRecuperada.get();
+        publicationsModel.setTitle(publication.getTitle());
+        publicationsModel.setDescription(publication.getDescription());
+        publicationsModel.setVisibility(publication.getVisibility());
+
+        publicationsRepository.save(publicationsModel);
+        return "La Publicacion con el id: "+publicationsModel.getId()+" Se actualizo Correctamente.";
+
+
+    }
+
+
 
 }
 
