@@ -1,6 +1,7 @@
 package backend.proyect_doctic_is1.Service;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -40,6 +41,13 @@ public interface IPublicationsService {
     List<PublicationsModel> sortMostSeenPublications();
 
     List<PublicationsModel> getPublicationsByUserId(String id);
+
+    boolean deletePublication(String publicationId, String userId);     List<PublicationsModel> findByUserId(String idUser);
+    
+    List<PublicationsModel> filterPublications(String title, String idUser, String idCategory, Date startDate,Date endDate);
+
+
+
     
     }//end class
 

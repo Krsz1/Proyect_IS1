@@ -1,6 +1,8 @@
 package backend.proyect_doctic_is1.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -107,16 +109,60 @@ public class PublicationsServiceImp implements IPublicationsService {
         return publicationsRepository.findAll(Sort.by(Sort.Direction.DESC, "DocsFilesInfo.totalViews"));
     }
 
-    // Lógica para obtener todas las publicaciones de un usuario por su ID
-    public List<PublicationsModel> getPublicationsByUserId(String userId) {
-        return publicationsRepository.findByAuthors_idUser(userId);
-    }
-
     @Override
     public String guardarPublicacion(PublicationsModel publicacion) {
         publicationsRepository.save(publicacion);
         return "La publicacion fue guardada con exito";
     }
+
+    // Método para verificar si el usuario es el autor de la publicación     
+    @SuppressWarnings("unlikely-arg-type")
+    public boolean isAuthorOfPublication(String publicationId, String userId) {         
+        PublicationsModel publication = publicationsRepository.findById(publicationId).orElse(null);        
+        return publication != null && publication.getAuthors().contains(userId);     
+    }
+    
+    public List<PublicationsModel> getPublicationsByUserId(String userId) {        
+        return publicationsRepository.findByIdUser(userId);     
+    }     
+    // Método para eliminar la publicación (ya sin necesidad de verificar el autor)    
+
+    public void deletePublication(String publicationId) {         
+        publicationsRepository.deleteById(publicationId);     
+    } 
+
+    @Override
+    public boolean deletePublication(String publicationId, String userId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'deletePublication'");
+    }
+
+    @Override
+    public List<PublicationsModel> findByUserId(String idUser) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findByUserId'");
+    }
+
+
+
+    // Filtrar publicaciones por diferentes criterios     
+    public List<PublicationsModel> filterPublications(String title, String idUser, String idCategory, Date startDate, Date endDate) {         
+        List<PublicationsModel> result = new ArrayList<>();         
+        if (title != null) {            
+            result.addAll(publicationsRepository.findByTitleContainingIgnoreCase(title));         
+        }         
+        if (idUser != null) {             
+            result.addAll(publicationsRepository.findByAuthorsContains(idUser));         
+        }         
+        if (idCategory != null) {             
+            result.addAll(publicationsRepository.findByCategories_id(idCategory));         
+        }         
+        if (startDate != null && endDate != null) {             
+            result.addAll(publicationsRepository.findByPublicationDateBetween(startDate, endDate));         
+        }         
+        return result;     
+    }
+    
     
 
 

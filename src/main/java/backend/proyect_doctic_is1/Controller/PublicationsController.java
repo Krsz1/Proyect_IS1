@@ -1,6 +1,7 @@
 package backend.proyect_doctic_is1.Controller;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -9,6 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -152,6 +154,24 @@ public class PublicationsController {
         return new ResponseEntity<String>(publicationsService.guardarPublicacion(publicaacion), HttpStatus.CREATED);
     }
 
+    //aca
+    @DeleteMapping("/{publicationId}")     public ResponseEntity<String> deletePublication(@PathVariable String publicationId, @RequestParam String userId) {         boolean isDeleted = publicationsService.deletePublication(publicationId, userId);         if (isDeleted) {             return new ResponseEntity<>("Publicación eliminada correctamente", HttpStatus.OK);         } else {             return new ResponseEntity<>("No tiene permisos para eliminar esta publicación", HttpStatus.FORBIDDEN);         }     }     public PublicationsController(PublicationsModel publicationsService) {         this.publicationsService = (IPublicationsService) publicationsService;     }     // Método para listar publicaciones por cliente (idUser)     @GetMapping("/user/{idUser}")     public List<PublicationsModel> getPublicationsByUser(@PathVariable String idUser) {         return publicationsService.findByUserId(idUser);     } } // Método GET para filtrar publicaciones
+    @GetMapping("/filter")
+    public ResponseEntity<List<PublicationsModel>> filterPublications(
+            @RequestParam(value = "title", required = false) String title,
+            @RequestParam(value = "idUser", required = false) String idUser,
+            @RequestParam(value = "idCategory", required = false) String idCategory,
+            @RequestParam(value = "startDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+            @RequestParam(value = "endDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
+
+        List<PublicationsModel> filteredPublications = publicationsService.filterPublications(title, idUser, idCategory, startDate, endDate);
+
+        if (filteredPublications.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        return new ResponseEntity<>(filteredPublications, HttpStatus.OK);
+    }
 }//end controller    
 
 //Krs
