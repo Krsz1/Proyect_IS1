@@ -1,9 +1,12 @@
 package backend.proyect_doctic_is1.Service;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.bson.types.ObjectId;
+import org.springframework.web.multipart.MultipartFile;
 
 import backend.proyect_doctic_is1.DTOs.PublicationMetadatos;
 import backend.proyect_doctic_is1.Model.PublicationsModel;
@@ -33,10 +36,14 @@ public interface IPublicationsService {
     List<PublicationsModel> getAllPublicPublications();
 
     // Metodo para crear una publicacion
-    String createPublication(PublicationsModel publication);
+    PublicationsModel createPublication(MultipartFile file, PublicationsModel publication)throws IOException;
 
     // Metodo para modificar una publicacion
     String updatePublication(PublicationsModel publication,String id);
+
+
+    // Metodo para descargar
+    Optional<PublicationsModel> descargar (String id)throws IOException;
 
     }
 

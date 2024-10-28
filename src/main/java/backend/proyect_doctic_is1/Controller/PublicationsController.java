@@ -1,5 +1,6 @@
 package backend.proyect_doctic_is1.Controller;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -16,12 +17,15 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 import backend.proyect_doctic_is1.DTOs.PublicationMetadatos;
 import backend.proyect_doctic_is1.Exception.RecursoNoEncontrado;
 import backend.proyect_doctic_is1.Model.PublicationsModel;
+import backend.proyect_doctic_is1.Response.ResponseMessage;
 import backend.proyect_doctic_is1.Service.IPublicationsService;
 
 @RequestMapping("/api/publications")
@@ -126,10 +130,20 @@ public class PublicationsController {
 
     // Endpoint para crear las publicaciones
     @PostMapping("/createPublication")
-    public ResponseEntity<String> createPublication(@RequestBody PublicationsModel publication){
-        return new ResponseEntity<String>(publicationsService.createPublication(publication),HttpStatus.OK);
+    public ResponseEntity<ResponseMessage> createPublication(@RequestPart MultipartFile file, @RequestPart PublicationsModel publication) throws IOException{
+        publicationsService.createPublication(file,publication);
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("Publicacion Subida Exitosamente"));
     }
 
+    // EndPoint para descargar una publicacion
+    @GetMapping("/descargar/{id}")
+    public ResponseEntity<byte[]> descargar (@PathVariable String id) throws IOException {
+        PublicationsModel publication = publicationsService.descargar(id).get();
+        return ResponseEntity.status(HttpStatus.OK)
+        .header(HttpHeaders.CONTENT_TYPE, publication.getType())
+        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + publication.getTitle()+"\"")
+        .body(publication.getData());
+    }
 
     //Endpoint para actualizar una pubicacion
     @PutMapping("/update/{id}")
@@ -144,6 +158,7 @@ public class PublicationsController {
         }
         return null;
     }
+
 }    
 
 //Krs

@@ -1,8 +1,11 @@
 package backend.proyect_doctic_is1.Service;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -10,6 +13,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import backend.proyect_doctic_is1.DTOs.PublicationMetadatos;
 import backend.proyect_doctic_is1.Exception.RecursoNoEncontrado;
@@ -99,9 +103,10 @@ public class PublicationsServiceImp implements IPublicationsService {
 
     //Metodo para Crear una publicacion
     @Override
-    public String createPublication(PublicationsModel publication) {
-        publicationsRepository.save(publication);
-        return "La publicacion "+publication.getTitle()+" Se ha creado con exito.";
+    public PublicationsModel createPublication(MultipartFile file, PublicationsModel publication) throws IOException {
+        publication.setData(file.getBytes());
+        publication.setType(file.getContentType());
+        return publicationsRepository.save(publication);
 
     }
 
@@ -120,6 +125,18 @@ public class PublicationsServiceImp implements IPublicationsService {
 
 
     }
+
+    @Override
+    public Optional<PublicationsModel> descargar(String id) throws IOException {
+        Optional<PublicationsModel> publication = publicationsRepository.findById(id);
+        if (publication.isPresent()) {
+            return publication;
+        }
+        throw new FileNotFoundException();
+    }
+
+
+    
 
 
 

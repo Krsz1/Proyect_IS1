@@ -1,11 +1,11 @@
 package backend.proyect_doctic_is1.Model;
 
-import backend.proyect_doctic_is1.Model.ENUM.visibility;
 import backend.proyect_doctic_is1.Model.ENUM.userRoleAuthors;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "Publications")
-
+@Builder
 public class PublicationsModel {
 
     @Id
@@ -25,7 +25,10 @@ public class PublicationsModel {
     private String description;
     private LocalDate publicationDate;
     private String urlFiles;
-    private String visibility; 
+    private String visibility;  
+    
+    private String type;
+    private byte[] data;
     
     private List<Authors> authors;
     private List<Category> categories;
