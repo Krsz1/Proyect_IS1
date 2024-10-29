@@ -45,6 +45,8 @@ public interface IPublicationsService {
     // Metodo para descargar
     Optional<PublicationsModel> descargar (String id)throws IOException;
 
+    boolean deletePublication(String publicationId, String userId);
+
     }
 
     

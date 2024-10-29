@@ -6,17 +6,17 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.MongoTemplate;
-
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import backend.proyect_doctic_is1.DTOs.PublicationMetadatos;
 import backend.proyect_doctic_is1.Exception.RecursoNoEncontrado;
+import backend.proyect_doctic_is1.Model.ENUM.userRoleAuthors;
 import backend.proyect_doctic_is1.Model.PublicationsModel;
 import backend.proyect_doctic_is1.Repository.IPublicationsRepository;
 
@@ -135,11 +135,27 @@ public class PublicationsServiceImp implements IPublicationsService {
         throw new FileNotFoundException();
     }
 
+    @Override
+    public boolean deletePublication(String publicationId, String idUser) {
+    Optional<PublicationsModel> publicationOptional = publicationsRepository.findById(publicationId);
+    if (!publicationOptional.isPresent()) {
+        throw new RecursoNoEncontrado("La publicación no existe");
+    }
 
-    
+    PublicationsModel publication = publicationOptional.get();
 
+    // Verifica si el usuario tiene permisos para eliminar la publicación
+    boolean hasPermission = publication.getAuthors().stream()
+        .anyMatch(author -> author.getIdUser().equals(idUser) && author.getUserRoleAuthors().equals(userRoleAuthors.ADMIN));
 
-
+    if (hasPermission) {
+        publicationsRepository.deleteById(publicationId);
+        return true;
+    } else {
+        return false; // No tiene permisos para eliminar
+    }
+    }
 }
+
 
 //Krs
