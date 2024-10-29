@@ -146,7 +146,7 @@ public class PublicationsServiceImp implements IPublicationsService {
 
     // Verifica si el usuario tiene permisos para eliminar la publicación
     boolean hasPermission = publication.getAuthors().stream()
-        .anyMatch(author -> author.getIdUser().equals(idUser) && author.getUserRoleAuthors().equals(userRoleAuthors.ADMIN));
+        .anyMatch(author -> author.getIdUser().equals(idUser) && author.getUserRoleAuthors().equals(userRoleAuthors.author));
 
     if (hasPermission) {
         publicationsRepository.deleteById(publicationId);
@@ -155,6 +155,8 @@ public class PublicationsServiceImp implements IPublicationsService {
         return false; // No tiene permisos para eliminar
     }
     }
+    
+
 }
 
 
