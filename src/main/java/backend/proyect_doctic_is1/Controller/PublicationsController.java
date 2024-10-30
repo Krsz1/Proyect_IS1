@@ -155,7 +155,20 @@ public class PublicationsController {
     }
 
     //aca
-    @DeleteMapping("/{publicationId}")     public ResponseEntity<String> deletePublication(@PathVariable String publicationId, @RequestParam String userId) {         boolean isDeleted = publicationsService.deletePublication(publicationId, userId);         if (isDeleted) {             return new ResponseEntity<>("Publicación eliminada correctamente", HttpStatus.OK);         } else {             return new ResponseEntity<>("No tiene permisos para eliminar esta publicación", HttpStatus.FORBIDDEN);         }     }     public PublicationsController(PublicationsModel publicationsService) {         this.publicationsService = (IPublicationsService) publicationsService;     }     // Método para listar publicaciones por cliente (idUser)     @GetMapping("/user/{idUser}")     public List<PublicationsModel> getPublicationsByUser(@PathVariable String idUser) {         return publicationsService.findByUserId(idUser);     } } // Método GET para filtrar publicaciones
+    @DeleteMapping("/{publicationId}")     public ResponseEntity<String> deletePublication(@PathVariable String publicationId, @RequestParam String userId) {        
+        boolean isDeleted = publicationsService.deletePublication(publicationId, userId);         
+        if (isDeleted) {            
+            return new ResponseEntity<>("Publicación eliminada correctamente", HttpStatus.OK);         
+        } else {             
+            return new ResponseEntity<>("No tiene permisos para eliminar esta publicación", HttpStatus.FORBIDDEN);         
+        }     
+    }     
+    public PublicationsController(PublicationsModel publicationsService) {         
+        this.publicationsService = (IPublicationsService) publicationsService;     
+    }     // Método para listar publicaciones por cliente (idUser)     
+    @GetMapping("/user/{idUser}")     public List<PublicationsModel> getPublicationsByUser(@PathVariable String idUser) {         
+        return publicationsService.findByUserId(idUser);     } } 
+// Método GET para filtrar publicaciones
     @GetMapping("/filter")
     public ResponseEntity<List<PublicationsModel>> filterPublications(
             @RequestParam(value = "title", required = false) String title,
