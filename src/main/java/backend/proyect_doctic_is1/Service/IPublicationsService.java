@@ -42,7 +42,8 @@ public interface IPublicationsService {
 
     List<PublicationsModel> getPublicationsByUserId(String id);
 
-    boolean deletePublication(String publicationId, String userId);     List<PublicationsModel> findByUserId(String idUser);
+    boolean deletePublication(String publicationId, String userId);     
+    List<PublicationsModel> findByUserId(String idUser);
     
     List<PublicationsModel> filterPublications(String title, String idUser, String idCategory, Date startDate,Date endDate);
 
