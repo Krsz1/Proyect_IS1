@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -32,9 +33,17 @@ public class PublicationsModel {
     
     private List<Authors> authors;
     private List<Category> categories;
-    private List<Rating> ratings;
-    private List<DocsFilesInfo> docsFilesInfo;
+    // private List<Rating> ratings;
+    // private List<DocsFilesInfo> docsFilesInfo;
+    // Inicialización por defecto como lista vacía para ratings
+    @Builder.Default
+    private List<Rating> ratings = new ArrayList<>();
 
+    // Inicialización por defecto con un DocsFilesInfo predefinido en la lista
+    @Builder.Default
+    private List<DocsFilesInfo> docsFilesInfo = new ArrayList<>() {{
+        add(new DocsFilesInfo(0, 0.0, 0, 0));
+    }};
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
@@ -57,7 +66,6 @@ public class PublicationsModel {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-
     public static class Rating {
         private String idUser;
         private LocalDate date;
@@ -68,11 +76,12 @@ public class PublicationsModel {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    
     public static class DocsFilesInfo {
         private int totalDownloads;
         private double avgRating;
         private int totalComments;
         private int totalViews;
     }
+
+    
 }

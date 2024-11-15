@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 
@@ -26,16 +27,24 @@ public class UsersModel {
     private String username;
     private String email;
     private userRole userRole;
-    private LocalDate registrationDate;
-    private String profilePicture;
+    private Date registrationDate;
+    private Profile profile;
     
-    private Credentials credentials; // Subdocument para almacenar las credenciales.
+    private List<Credentials> credentials; // Subdocument para almacenar las credenciales.
     
     private SecurityQuestion securityQuestion; 
     
     private List<DownloadedDocs> downloadedDocs; // List para almacenar docs descargados.
     private List<DocHistory> docHistory; 
 
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class Profile {
+        private String fullName;
+        private String profilePicture;
+    }
+    
     @Data
     @AllArgsConstructor
     @NoArgsConstructor

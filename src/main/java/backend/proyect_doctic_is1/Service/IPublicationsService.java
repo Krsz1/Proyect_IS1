@@ -30,7 +30,7 @@ public interface IPublicationsService {
     List<PublicationsModel> findByAuthor(String username);
 
     // Metodo para buscar la publicacion por id
-    PublicationsModel findPublicationsByid(String id);
+    Optional<PublicationsModel> findPublicationsByid(String id);
 
     // Metodo para buscar las publicas 
     List<PublicationsModel> getAllPublicPublications();
@@ -47,6 +47,7 @@ public interface IPublicationsService {
 
     boolean deletePublication(String publicationId, String userId);
 
+    PublicationsModel save (PublicationsModel publication);
 }
 
     

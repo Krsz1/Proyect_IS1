@@ -89,15 +89,15 @@ public class PublicationsServiceImp implements IPublicationsService {
 
     // metodo para buscar publicacion por id
     @Override
-    public PublicationsModel findPublicationsByid(String id) {
+    public Optional<PublicationsModel> findPublicationsByid(String id) {
         Optional<PublicationsModel> publication = publicationsRepository.findById(id);
-        return publication.orElseThrow(()-> new RecursoNoEncontrado("la publicacion no existe en la BD"));
+        return Optional.of(publication.orElseThrow(()-> new RecursoNoEncontrado("la publicacion no existe en la BD")));
     }
 
     @Override
     // Método para obtener todas las publicaciones públicas
     public List<PublicationsModel> getAllPublicPublications() {
-        return publicationsRepository.findByVisibility("publics");
+        return publicationsRepository.findByVisibility("public");
     }
 
 
@@ -106,6 +106,7 @@ public class PublicationsServiceImp implements IPublicationsService {
     public PublicationsModel createPublication(MultipartFile file, PublicationsModel publication) throws IOException {
         publication.setData(file.getBytes());
         publication.setType(file.getContentType());
+
         return publicationsRepository.save(publication);
 
     }
@@ -156,6 +157,10 @@ public class PublicationsServiceImp implements IPublicationsService {
     }
     }
     
+    @Override
+    public PublicationsModel save(PublicationsModel publication) {
+        return publicationsRepository.save(publication);
+    }
 
 }
 
